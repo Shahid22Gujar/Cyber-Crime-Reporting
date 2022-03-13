@@ -26,7 +26,7 @@ class VictimUser(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
     user_adhar=models.CharField(max_length=50)
     category_crime=models.CharField(choices=CYBER_CRIME_CATEGORY,max_length=10)
-    screenshot=models.ImageField(upload_to="screenshot")
+    screenshot=models.ImageField(upload_to="screenshot/")
     suspected_person=models.CharField(max_length=50)
     date_crime=models.DateTimeField()
     suspected_email=models.EmailField()
@@ -36,5 +36,12 @@ class VictimUser(models.Model):
     id_usedby_criminal=models.CharField(max_length=50)
     def __str__(self):
         return str(self.user)
+
+class Profile(models.Model):
+    profile_pic=models.ImageField(upload_to='profile_img')
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    address=models.CharField(max_length=200)
+    email=models.EmailField()
+    dob=models.DateField()
 
 

@@ -1,0 +1,23 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+</head>
+
+<body>
+
+    <hr> User:{{victim}}
+    <br> Date of Crime:{{victim.date_crime}}
+    <br> Adhar Card No: {{victim.user_adhar}} <br>
+    <!-- <br> {{victim.screenshot.url}}
+     <br>{{victim.screenshot}} {{victim.screenshot.path}} -->
+    <br> Screenshots:<br> <img src="{{victim.screenshot}}" alt="" height="100px" width="100px"><br>
+
+
+</body>
+
+</html>
