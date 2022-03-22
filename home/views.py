@@ -13,7 +13,7 @@ from . models import *
 
 
 # Create your views here.
-@login_required
+@login_required(login_url='login/')
 def home(request):
     form=ReportingForm(request.POST or None,request.FILES or None)
     files=request.FILES.getlist("screenshots")
@@ -75,11 +75,12 @@ def login_request(request):
     form = AuthenticationForm()
     return render(request=request, template_name="login.html", context={"login_form":form})
 
+@login_required(login_url='login/')
 def logout_request(request):
     logout(request)
     messages.info(request, "You have successfully logged out.") 
     return redirect("home")
-
+@login_required(login_url='login/')
 def user_profile(request):
     profile=VictimUser.objects.all()
     print(profile)
@@ -116,7 +117,7 @@ def user_profile(request):
 #     # present the option to save the file.
 #     buffer.seek(0)
 #     return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
-@login_required(login_url='/login')
+@login_required(login_url='login/')
 def show_reports(request):
     user=request.user
     reports=VictimUser.objects.filter(user=user)
