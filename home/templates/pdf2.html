@@ -12,10 +12,8 @@
 
     <hr> User:{{victim}}
     <br> Date of Crime:{{victim.date_crime}}
-    <br> Adhar Card No: {{victim.user_adhar}} <br>
-
-
-    <br> Screenshots:<br> <img src="{{victim.screenshot}}" alt="" height="100px" width="100px"><br>
+    <br> Adhar Card No: {{victim.user_adhar}} <br> {% for scr in screenshots %} <br> Screenshots:<br> <img src="{{scr.screenshots.path}}" alt="" height="100px" width="100px" style="display:inline-block"> {% endfor %}
+    <!-- <br> Screenshots:<br> <img src="{{victim.screenshot}}" alt="" height="100px" width="100px"><br> -->
 
 </body>
 

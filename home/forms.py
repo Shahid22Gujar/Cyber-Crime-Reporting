@@ -12,9 +12,13 @@ class DateInput(forms.DateInput):
 
 
 class ReportingForm(ModelForm):
+    screenshots = forms.FileField(widget=forms.FileInput(
+        attrs={'class':'form-control','multiple':True}
+    ))
     class Meta:
         model = VictimUser
         fields = "__all__"
+        exclude=['screenshots_obj']
        
         widgets = { 
             'user':forms.HiddenInput(),

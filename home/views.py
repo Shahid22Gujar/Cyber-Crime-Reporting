@@ -16,15 +16,25 @@ from . models import *
 @login_required
 def home(request):
     form=ReportingForm(request.POST or None,request.FILES or None)
-    files=request.FILES.getlist("screenshot")
+    files=request.FILES.getlist("screenshots")
+    user=request.user
     if request.method=="POST":
         # print(form)
+        
+        # print(screenshots)
         if form.is_valid():
             form=form.save(commit=False)
-            form.user=request.user
+            form.user=user
+           
+            # form.screenshots_obj=form
+            form.save()
             for f in files:
-                form.screenshot=f
-                form.save()
+                # form.screenshot=f
+                screenshots=Screenshots.objects.create(
+                    screenshots=f,victimuser=form
+                )
+            
+                
             
             messages.success(request,'Your complaint have been registered')
             return redirect('home')
@@ -110,7 +120,6 @@ def user_profile(request):
 def show_reports(request):
     user=request.user
     reports=VictimUser.objects.filter(user=user)
-    print(reports)
     context={'reports':reports}
     return render(request,'download_reported_detail.html',context)
 
@@ -120,9 +129,10 @@ from xhtml2pdf import pisa
 def victim_render_pdf_view(request,*args,**kwargs):
     pk=kwargs.get('pk')
     victim=get_object_or_404(VictimUser,pk=pk)
+    screenshots=Screenshots.objects.filter(victimuser=victim)
     template_path = 'pdf2.html'
     # context = {'myvar': 'this is your template context'}
-    context = {'victim': victim}
+    context = {'victim': victim,'screenshots':screenshots}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
     # if download -> keep attachement

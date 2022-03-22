@@ -1,5 +1,4 @@
-from distutils.command.upload import upload
-from unicodedata import category
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -27,7 +26,7 @@ class VictimUser(models.Model):
     user_adhar=models.CharField(max_length=50)
     category_crime=models.CharField(choices=CYBER_CRIME_CATEGORY,max_length=10)
     suspected_person=models.CharField(max_length=50)
-    screenshot=models.ImageField(upload_to="screenshot/")
+    # screenshots_obj=models.ForeignKey("Screenshots",on_delete=models.CASCADE,null=True)
     date_crime=models.DateTimeField()
     suspected_email=models.EmailField()
     mobile=models.CharField(max_length=12)
@@ -44,8 +43,8 @@ class Profile(models.Model):
     email=models.EmailField()
     dob=models.DateField()
 
-# class Screenshot(models.Model):
-#     user=models.ForeignKey(User,on_delete=models.CASCADE)
-#     screenshot=models.ImageField(upload_to="screenshot/")
+class Screenshots(models.Model):
+    victimuser=models.ForeignKey(VictimUser,on_delete=models.CASCADE,null=True)
+    screenshots=models.ImageField(upload_to="screenshot/")
 
 
