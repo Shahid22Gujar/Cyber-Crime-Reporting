@@ -16,7 +16,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
     <link rel="stylesheet" href='{% static "css/screenshot.css" %}'>
-
+    <style>
+        .anchor {
+            text-decoration: none;
+        }
+        
+        body {
+            background-image: url("https://thumbs.dreamstime.com/z/hacking-thief-concept-side-view-hacker-using-computer-digital-interface-sitting-desk-blurry-interior-d-123641233.jpg");
+            background-color: #cccccc;
+        }
+    </style>
 
     <title>{% block title %} {% endblock title %}</title>
 </head>
@@ -48,7 +57,10 @@
                 {% else %}
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link anchor" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link anchor" href="{% url 'register' %}">Register</a>
                 </li>
 
 

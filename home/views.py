@@ -1,5 +1,6 @@
 
-from email import message
+from re import template
+from django.views.generic import TemplateView,View
 from django.shortcuts import get_object_or_404, render,redirect
 from .forms import ReportingForm
 from django.contrib.auth import login, authenticate,logout #add this
@@ -13,8 +14,10 @@ from . models import *
 
 
 # Create your views here.
-@login_required(login_url='login/')
-def home(request):
+class Home(TemplateView):
+    template_name='home.html'
+# @login_required(login_url='login/')
+def report(request):
     form=ReportingForm(request.POST or None,request.FILES or None)
     files=request.FILES.getlist("screenshots")
     user=request.user
@@ -41,7 +44,7 @@ def home(request):
     else:
         form=ReportingForm()
     context={'form':form}
-    return render(request,'home.html',context)
+    return render(request,'report.html',context)
 
 
 def register_request(request):
@@ -82,7 +85,7 @@ def logout_request(request):
     return redirect("home")
 @login_required(login_url='login/')
 def user_profile(request):
-    profile=VictimUser.objects.all()
+    profile=Report.objects.all()
     print(profile)
     context={'profile':profile}
     return render(request,'profile.html',context)
@@ -120,7 +123,7 @@ def user_profile(request):
 @login_required(login_url='login/')
 def show_reports(request):
     user=request.user
-    reports=VictimUser.objects.filter(user=user)
+    reports=Report.objects.filter(user=user)
     context={'reports':reports}
     return render(request,'download_reported_detail.html',context)
 
@@ -129,7 +132,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 def victim_render_pdf_view(request,*args,**kwargs):
     pk=kwargs.get('pk')
-    victim=get_object_or_404(VictimUser,pk=pk)
+    victim=get_object_or_404(Report,pk=pk)
     screenshots=Screenshots.objects.filter(victimuser=victim)
     template_path = 'pdf2.html'
     # context = {'myvar': 'this is your template context'}
@@ -172,3 +175,8 @@ def victim_render_pdf_view(request,*args,**kwargs):
 #        return HttpResponse('We had some errors <pre>' + html + '</pre>')
 #     return response
 
+class AcceptTerm(TemplateView):
+    template_name='accept_terms.html'
+
+class MethodToReport(TemplateView):
+    template_name='methd_report.html'

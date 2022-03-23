@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block body %}
+
+<div class="container w-50  ">
+    <div class="card">
+        <div class="card-header text-center">
+            Accept Terms & Conditions
+        </div>
+        <div class="card-body ">
+            <h5 class="card-title text-center">Prior to filing a complaint with this portal, we would request you to read the below information regarding terms and conditions. Should you have queries prior to filing your complaint, view Frequently Asked Questions FAQ The information I've
+                provided on this form is correct to the best of my knowledge. I acknowledge that providing false information could make me liable to penal actions under Indian Laws. I understand that action on the complaints reported on this portal shall
+                be taken by concerned authorities as per Indian Laws. The complaint information you submit to this site is encrypted via secure socket layer (SSL) encryption. Please see the Privacy Policy for further information. We thank you for your
+                cooperation.
+            </h5>
+            <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+            <a href="{% url 'method-to-report' %}" class="btn btn-secondary mt-2" style="margin-left: 245px;">Accept</a>
+            <!-- <div class="form-check mt-3">
+                <input class="form-check-input text-center" type="checkbox" value="" id="defaultCheck1" style="    margin-left:229px; ">
+                <label class="form-check-label text-center" for="defaultCheck1">
+                  Agree
+                </label>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

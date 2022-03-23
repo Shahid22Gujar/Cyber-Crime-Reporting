@@ -1,6 +1,6 @@
 
 from django.forms import ModelForm, MultiValueField
-from .models import VictimUser
+from .models import Report
 #Creating Registration
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -16,7 +16,7 @@ class ReportingForm(ModelForm):
         attrs={'class':'form-control','multiple':True}
     ))
     class Meta:
-        model = VictimUser
+        model = Report
         fields = "__all__"
         exclude=['screenshots_obj']
        

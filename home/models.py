@@ -21,7 +21,7 @@ CYBER_CRIME_CATEGORY=(
     ('VWM','Viruses,Worms,and Trojans'),
 )
 
-class VictimUser(models.Model):
+class Report(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
     user_adhar=models.CharField(max_length=50)
     category_crime=models.CharField(choices=CYBER_CRIME_CATEGORY,max_length=10)
@@ -44,7 +44,7 @@ class Profile(models.Model):
     dob=models.DateField()
 
 class Screenshots(models.Model):
-    victimuser=models.ForeignKey(VictimUser,on_delete=models.CASCADE,null=True)
+    victimuser=models.ForeignKey(Report,on_delete=models.CASCADE,null=True)
     screenshots=models.ImageField(upload_to="screenshot/")
 
 

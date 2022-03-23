@@ -1,11 +1,10 @@
 {% extends "base.html" %} {% load crispy_forms_tags %} {% block body %}
-<div class="container w-50">
 
-
-    <form method="POST" action="" enctype="multipart/form-data">
-        {% csrf_token %} {{form|crispy}}
-        <button type="submit" class="btn btn-primary mt-2">Report</button>
-    </form>
+<div class="container text-center text-white">
+    <p style="background-color: #235D73; color:black;border-radius: 5px;border: 1px;">Filing a Complaint on Cyber Crime Reporting Portal This portal is to facilitate victims/complainants to report cyber crime complaints online. This portal caters to complaints pertaining to cyber crimes only with special focus on cyber crimes . Complaints
+        reported on this portal are dealt by law enforcement agencies/ police based on the information available in the complaints. It is imperative to provide correct and accurate details while filing complaint for prompt action. </p>
+    <a href="#" class="btn btn-danger anchor mx-2 ">Learn about Cybercrimes</a>
+    <a href="{% url 'accept-term' %}" class="btn btn-success anchor">File Complain</a>
 
 
 </div>

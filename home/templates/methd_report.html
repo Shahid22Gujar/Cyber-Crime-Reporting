@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block body %}
+<div class="container w-50">
+
+    <a href="#" class="btn btn-danger anchor mx-2">Report Anonymously </a>
+    <a href="{% url 'report' %}" class="btn btn-success anchor">Report and Track</a>
+    <a href="{% url 'accept-term' %}" class="btn btn-primary anchor">Report Other Crimes</a>
+
+
+</div>
+
+{% endblock body %}
