@@ -11,14 +11,14 @@ class DateInput(forms.DateInput):
 
 
 
-class ReportingForm(ModelForm):
+class ReportingFormAnonmously(ModelForm):
     screenshots = forms.FileField(widget=forms.FileInput(
         attrs={'class':'form-control','multiple':True}
     ))
     class Meta:
         model = Report
         fields = "__all__"
-        exclude=['screenshots_obj']
+        exclude=['screenshots_obj','user','ip','mobile']
        
         widgets = { 
             'user':forms.HiddenInput(),
@@ -38,10 +38,42 @@ class ReportingForm(ModelForm):
              'mobile' : forms.TextInput(attrs={'class':'form-control'}), 
             #  'date_crime' :forms.DateInput(format='%d-%m-%Y', label='Date effet'),   
              'suspected_mobile' : forms.TextInput(attrs={'class':'form-control'}),      
-              'crime_source' : forms.TextInput(attrs={'class':'form-control'}), 
-              'id_usedby_criminal' :forms.TextInput(attrs={'class':'form-control'}),
+              'incident_place' : forms.TextInput(attrs={'class':'form-control'}), 
+              'reason_for_delay_reporting' :forms.Textarea(attrs={'class':'form-control','cols':'40','rows':'5'}),
+              'additional_information' :forms.Textarea(attrs={'class':'form-control','cols':'40','rows':'5'}),
             }    
 
+class ReportingForm(ModelForm):
+    screenshots = forms.FileField(widget=forms.FileInput(
+        attrs={'class':'form-control','multiple':True}
+    ))
+    class Meta:
+        model = Report
+        fields = "__all__"
+        exclude=['screenshots_obj','user','ip']
+       
+        widgets = { 
+            'user':forms.HiddenInput(),
+            'screenshot':forms.ClearableFileInput(
+                attrs={'class':'form-control','multiple':True}
+            ),
+            'date_crime': forms.DateInput(
+                format=('%d/%m/%Y'),
+                attrs={'class': 'form-control', 
+                       'placeholder': 'Select a date',
+                       'type': 'datetime-local'  # <--- IF I REMOVE THIS LINE, THE INITIAL VALUE IS DISPLAYED
+                      }),
+            'user_adhar' : forms.TextInput(attrs={'class':'form-control'}), 
+             'category_crime' : forms.Select(attrs={'class':'form-control'}),
+             'suspected_person' : forms.TextInput(attrs={'class':'form-control'}),
+             'suspected_email' : forms.TextInput(attrs={'class':'form-control'}),
+             'mobile' : forms.TextInput(attrs={'class':'form-control'}), 
+            #  'date_crime' :forms.DateInput(format='%d-%m-%Y', label='Date effet'),   
+             'suspected_mobile' : forms.TextInput(attrs={'class':'form-control'}),      
+              'incident_place' : forms.TextInput(attrs={'class':'form-control'}), 
+              'reason_for_delay_reporting' :forms.Textarea(attrs={'class':'form-control','cols':'40','rows':'5'}),
+              'additional_information' :forms.Textarea(attrs={'class':'form-control','cols':'40','rows':'5'}),
+            }  
 
 
 

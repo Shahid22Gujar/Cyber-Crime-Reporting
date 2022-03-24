@@ -23,18 +23,21 @@ CYBER_CRIME_CATEGORY=(
 
 class Report(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
-    user_adhar=models.CharField(max_length=50)
+    ip=models.GenericIPAddressField(blank=True,null=True)
+    # user_adhar=models.CharField(max_length=50)
     category_crime=models.CharField(choices=CYBER_CRIME_CATEGORY,max_length=10)
-    suspected_person=models.CharField(max_length=50)
+    # suspected_person=models.CharField(max_length=50)
     # screenshots_obj=models.ForeignKey("Screenshots",on_delete=models.CASCADE,null=True)
     date_crime=models.DateTimeField()
-    suspected_email=models.EmailField()
-    mobile=models.CharField(max_length=12)
-    suspected_mobile=models.CharField(max_length=12)
-    crime_source=models.CharField(max_length=100)
-    id_usedby_criminal=models.CharField(max_length=50)
+    suspected_email=models.EmailField(blank=True)
+    mobile=models.CharField(max_length=12,blank=True)
+    suspected_mobile=models.CharField(max_length=12,blank=True)
+    incident_place=models.CharField(max_length=100)
+    # id_usedby_criminal=models.CharField(max_length=50)
+    reason_for_delay_reporting=models.CharField(max_length=200,blank=True)
+    additional_information=models.CharField(max_length=200,blank=True)
     def __str__(self):
-        return str(self.user)
+        return f'{self.user if self.user else self.ip}'
 
 class Profile(models.Model):
     profile_pic=models.ImageField(upload_to='profile_img')
@@ -46,5 +49,7 @@ class Profile(models.Model):
 class Screenshots(models.Model):
     victimuser=models.ForeignKey(Report,on_delete=models.CASCADE,null=True)
     screenshots=models.ImageField(upload_to="screenshot/")
+    def __str__(self) -> str:
+        return str(self.victimuser)
 
 

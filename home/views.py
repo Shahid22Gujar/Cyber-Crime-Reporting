@@ -1,22 +1,82 @@
 
-from re import template
+
 from django.views.generic import TemplateView,View
 from django.shortcuts import get_object_or_404, render,redirect
-from .forms import ReportingForm
+from .forms import ReportingForm,NewUserForm,ReportingFormAnonmously
 from django.contrib.auth import login, authenticate,logout #add this
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
-from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from . models import *
+from ipware import get_client_ip
 
+# if ip is None:
+#     # Unable to get the client's IP address
+# else:
+#     # We got the client's IP address
+#     if is_routable:
+#         # The client's IP address is publicly routable on the Internet
+#     else:
+#         # The client's IP address is private
 
+# Order of precedence is (Public, Private, Loopback, None
 # Create your views here.
 class Home(TemplateView):
     template_name='home.html'
-# @login_required(login_url='login/')
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        ip, is_routable = get_client_ip(self.request)
+        if ip is None:
+            # Unable to get the client's IP address
+            print("Unable to get ip")
+        else:
+            # We got the client's IP address
+           
+            if is_routable:
+                print(ip)
+                # The client's IP address is publicly routable on the Internet
+                print("Public IP")
+            else:
+                # The client's IP address is private
+                print(ip)
+                print("Private IP")
+
+        return self.render_to_response(context)
+# Report Anonymously
+def report_anonmously(request):
+    form=ReportingFormAnonmously(request.POST or None,request.FILES or None)
+    files=request.FILES.getlist("screenshots")
+    ip, is_routable = get_client_ip(request)
+    if request.method=="POST":
+        # print(form)
+        
+        # print(screenshots)
+        if form.is_valid():
+            form=form.save(commit=False)
+            if ip is None:
+                form.ip=''
+            form.ip=ip
+           
+            # form.screenshots_obj=form
+            form.save()
+            for f in files:
+                # form.screenshot=f
+                screenshots=Screenshots.objects.create(
+                    screenshots=f,victimuser=form
+                )
+            
+                
+            
+            messages.success(request,'Your complaint have been registered')
+            return redirect('home')
+    else:
+        form=ReportingFormAnonmously()
+    context={'form':form}
+    return render(request,'report_anonmously.html',context)
+
+@login_required(login_url='login/')
 def report(request):
     form=ReportingForm(request.POST or None,request.FILES or None)
     files=request.FILES.getlist("screenshots")
