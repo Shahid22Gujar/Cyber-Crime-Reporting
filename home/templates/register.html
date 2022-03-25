@@ -1,20 +1,29 @@
 {% extends "base.html" %} {% load crispy_forms_tags %} {% block body %}
 <!--Register-->
+<div class="container w-25" style="background-color: whitesmoke;">
 
-<div class="container py-5">
-    {% if messages %} {% for message in messages %}
-    <div class="alert alert-red alert-dismissible fade show" role="alert">
-        <strong>{{message}}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    <div class="container text-center py-5">
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-red alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
 
-    {% endfor %} {% endif %}
-    <h1>Register</h1>
-    {% for field in register_form %}
+        {% endfor %} {% endif %}
+        <h1>Register</h1>
+        <form method="POST">
+            {% csrf_token %} {{register_form|crispy}}
+            <button class="btn btn-primary" type="submit">Register</button>
+            <p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
+        </form>
+        <!-- {% for field in register_form %}
     <form method="POST">
         {% csrf_token %} {{ field.errors }} {{ field.label_tag }} {{ field}}<br><br> {% endfor %}
         <button class="btn btn-primary" type="submit">Register</button>
-    </form>
-    {% endblock body %}
-    <p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
-</div>
+  
+    {% endblock body %} -->
+
+
+
+
+    </div>

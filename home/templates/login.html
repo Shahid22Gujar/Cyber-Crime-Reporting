@@ -3,7 +3,7 @@
 
 
 <!--Login-->
-<div class="container py-5 mt-5 text-center">
+<div class="container w-25 py-5 mt-5 text-center" style="background-color: whitesmoke;">
     <h1>Login</h1>
     <form method="POST">
         {% csrf_token %} {{ login_form|crispy }}

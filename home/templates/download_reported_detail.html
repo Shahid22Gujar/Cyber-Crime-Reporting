@@ -1,27 +1,33 @@
 {% extends "base.html" %} {% block body %}
-<table class="table table-responsive ">
+<table class="table table-responsive w-50" style="background-color:whitesmoke;color:black;margin-left:350px;">
     <thead>
         <tr>
             <th scope="col">S.No</th>
             <th scope="col">Reported Date</th>
             <th scope="col">Reported By</th>
-            <th scope="col">Show</th>
-            <th scope="col">Download</th>
+            <!-- <th scope="col">Show</th> -->
+            <th scope="col">Show & Download</th>
         </tr>
     </thead>
     <tbody>
-        {% for report in reports %}
+        {% if reports %} {% for report in reports %}
 
 
         <tr>
             <th scope="row">{{forloop.counter}}</th>
             <td>{{report.date_crime}}</td>
-            <td>{{report.user.username}}</td>
-            <td><a href="#" class="btn btn-success">Show</a></td>
+            <td>
+                {% if report.user.username %} User:{{report.user.username}} {% else %} IP:{{report.ip}} {% endif %}
+
+            </td>
+            <!-- <td><a href="#" class="btn btn-success">Show</a></td> -->
             <td><a href="{% url 'victim-pdf-viewer' report.pk %}" class="btn btn-success">PDF</a></td>
 
         </tr>
-        {% endfor %}
+        {% endfor %} {% else %}
+        <h4 style="background-color: whitesmoke;">You haven't complain yet</h4> {% endif %}
+
+
     </tbody>
 </table>
 {% endblock body %}

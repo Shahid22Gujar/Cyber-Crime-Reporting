@@ -80,6 +80,7 @@ def report_anonmously(request):
 def report(request):
     form=ReportingForm(request.POST or None,request.FILES or None)
     files=request.FILES.getlist("screenshots")
+    # ip, is_routable = get_client_ip(request)
     user=request.user
     if request.method=="POST":
         # print(form)
@@ -88,6 +89,9 @@ def report(request):
         if form.is_valid():
             form=form.save(commit=False)
             form.user=user
+            # if ip is None:
+            #     form.ip=''
+            # form.ip=ip
            
             # form.screenshots_obj=form
             form.save()
@@ -180,19 +184,44 @@ def user_profile(request):
 #     # present the option to save the file.
 #     buffer.seek(0)
 #     return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
-@login_required(login_url='login/')
-def show_reports(request):
-    user=request.user
-    reports=Report.objects.filter(user=user)
-    context={'reports':reports}
-    return render(request,'download_reported_detail.html',context)
+# @login_required(login_url='login/')
+# def show_reports(request):
+#     # user=request.user
+#     ip = get_client_ip(request)
+#     print(ip)
+#     # reports=Report.objects.filter(user=user)
+#     reports=Report.objects.filter(ip=ip)
+#     context={'reports':reports}
+#     return render(request,'download_reported_detail.html',context)
+class show_reports(View):
+    def get(self,request,*args,**kwargs):
+        ip,is_routable= get_client_ip(self.request)
+        print(ip)
+        
+        
+        if ip:
+            reports=Report.objects.filter(ip=ip)
+            context={'reports':reports}
+            
+        else:
+            user=request.user
+            reports=Report.objects.filter(user=user)
+            context={'reports':reports}
+        return render(request,'download_reported_detail.html',context)
+
 
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 def victim_render_pdf_view(request,*args,**kwargs):
-    pk=kwargs.get('pk')
-    victim=get_object_or_404(Report,pk=pk)
+    # pk=kwargs.get('pk')
+    ip,routable = get_client_ip(request)#it return ip and boolean value
+    print(ip)
+    if ip:
+        victim=get_object_or_404(Report,ip=ip)
+    else:
+        user=request.user
+        victim=get_object_or_404(Report,user=user)
     screenshots=Screenshots.objects.filter(victimuser=victim)
     template_path = 'pdf2.html'
     # context = {'myvar': 'this is your template context'}

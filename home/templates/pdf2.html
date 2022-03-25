@@ -10,9 +10,14 @@
 
 <body>
 
-    <hr> User:{{victim}}
+    <hr> {% if victim.user %} User: {{victim}} {% else %} IP:{{victim.ip}} {% endif %}
+
+
     <br> Date of Crime:{{victim.date_crime}}
-    <br> Adhar Card No: {{victim.user_adhar}} <br> {% for scr in screenshots %} <br> Screenshots:<br> <img src="{{scr.screenshots.path}}" alt="" height="100px" width="100px" style="display:inline-block"> {% endfor %}
+    <br>Incident Place:{{victim.incident_place}}
+    <br>Reason for Delay Reporting:{{victim.reason_for_delay_reporting}}
+    <br> Additional Information:{{victim.additional_information}}<br>
+    <hr> {% for scr in screenshots %} <br> Screenshots:<br> <img src="{{scr.screenshots.path}}" alt="" height="100px" width="100px" style="display:inline-block"> {% endfor %}
     <!-- <br> Screenshots:<br> <img src="{{victim.screenshot}}" alt="" height="100px" width="100px"><br> -->
 
 </body>
